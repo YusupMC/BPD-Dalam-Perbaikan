@@ -1,0 +1,851 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102c59">
+  <meta name="description" content="Sistem Absensi Pegawai BPD Se-Kecamatan Pangkalan sedang dalam pemeliharaan sistem.">
+  <title>Maintenance | Absensi BPD Pangkalan</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+  <style>
+    :root {
+      --navy: #102c59;
+      --blue: #2164e8;
+      --light-blue: #eaf3ff;
+      --yellow: #ffb21a;
+      --text: #18345f;
+      --muted: #687c99;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 85% 20%, #dcecff 0, transparent 35%),
+        linear-gradient(135deg, #ffffff, #f3f8ff);
+      overflow-x: hidden;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(2px);
+    }
+
+    .orb-one {
+      width: 270px;
+      height: 270px;
+      background: #d9eaff;
+      opacity: .45;
+      right: -90px;
+      top: 140px;
+    }
+
+    .orb-two {
+      width: 150px;
+      height: 150px;
+      background: #fff0c9;
+      opacity: .4;
+      left: -70px;
+      bottom: 180px;
+    }
+
+    /* HEADER */
+    .header {
+      width: min(1240px, 90%);
+      margin: 0 auto;
+      padding: 30px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-logo {
+      width: 58px;
+      height: 58px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      background: #fff;
+      border: 1px solid #dce8fa;
+      border-radius: 17px;
+      box-shadow: 0 8px 25px #173c7010;
+      font-size: 27px;
+    }
+
+    .brand h2 {
+      color: var(--navy);
+      font-size: clamp(15px, 2vw, 21px);
+      font-weight: 800;
+      letter-spacing: -.6px;
+    }
+
+    .brand p {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .header-tag {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 16px;
+      color: #a36a00;
+      background: #fff8e6;
+      border: 1px solid #ffe4a0;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .header-tag i {
+      animation: pulse 1.8s infinite;
+    }
+
+    /* MAIN */
+    .main {
+      width: min(1240px, 90%);
+      margin: auto;
+      padding: 35px 0 65px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 45px;
+      flex: 1;
+    }
+
+    .content {
+      animation: slideUp .8s ease both;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--blue);
+      background: #eaf2ff;
+      border: 1px solid #d9e7ff;
+      padding: 10px 15px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+    }
+
+    .eyebrow span {
+      width: 7px;
+      height: 7px;
+      background: #f4a900;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px #ffedc1;
+    }
+
+    h1 {
+      color: var(--navy);
+      font-size: clamp(34px, 4.5vw, 57px);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -2.5px;
+    }
+
+    h1 .highlight {
+      color: var(--blue);
+      display: block;
+      margin-top: 8px;
+    }
+
+    .description {
+      margin-top: 24px;
+      max-width: 520px;
+      color: #617592;
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .notice {
+      margin-top: 28px;
+      padding: 17px 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      background: #fff;
+      border: 1px solid #e2ebf8;
+      border-radius: 17px;
+      box-shadow: 0 10px 30px #18345f08;
+    }
+
+    .notice-icon {
+      flex-shrink: 0;
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      background: #eaf2ff;
+      border-radius: 13px;
+      font-size: 19px;
+    }
+
+    .notice strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--navy);
+      font-size: 13px;
+    }
+
+    .notice p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .clock {
+      margin-top: 25px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .clock i {
+      color: var(--blue);
+      font-size: 17px;
+    }
+
+    .clock strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ILLUSTRATION */
+    .visual {
+      position: relative;
+      min-height: 420px;
+      display: grid;
+      place-items: center;
+      animation: slideUp .9s .15s ease both;
+    }
+
+    .visual-circle {
+      position: absolute;
+      width: min(100%, 420px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #e4efff, #f5f9ff);
+      border: 1px solid #e0ebfb;
+    }
+
+    .visual-circle::before,
+    .visual-circle::after {
+      content: "";
+      position: absolute;
+      border: 1px dashed #b8d0f5;
+      border-radius: 50%;
+      inset: 23px;
+    }
+
+    .visual-circle::after {
+      inset: 48px;
+      border-style: solid;
+      opacity: .5;
+    }
+
+    .gear {
+      position: absolute;
+      color: #bdd5fc;
+      font-size: 64px;
+      animation: rotate 20s linear infinite;
+    }
+
+    .gear-one {
+      top: 40px;
+      right: 40px;
+    }
+
+    .gear-two {
+      bottom: 45px;
+      left: 40px;
+      font-size: 42px;
+      animation-direction: reverse;
+    }
+
+    .laptop {
+      position: relative;
+      z-index: 2;
+      width: min(88%, 365px);
+      padding: 10px;
+      border: 3px solid #254c7e;
+      border-radius: 21px;
+      background: #16345e;
+      box-shadow: 0 28px 55px #183e7027;
+      transform: translateY(-7px);
+    }
+
+    .screen {
+      min-height: 255px;
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(150deg, #fff, #edf5ff);
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .screen-dots {
+      position: absolute;
+      top: 20px;
+      left: 22px;
+      display: flex;
+      gap: 5px;
+    }
+
+    .screen-dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ffbd3f;
+    }
+
+    .screen-dots span:first-child { background: #ff7777; }
+    .screen-dots span:last-child { background: #45c991; }
+
+    .screen-icon {
+      color: var(--blue);
+      font-size: 61px;
+      margin-bottom: 15px;
+      animation: rotate 9s linear infinite;
+    }
+
+    .screen h3 {
+      color: var(--navy);
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .screen p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .progress {
+      width: 100%;
+      max-width: 205px;
+      height: 7px;
+      margin-top: 22px;
+      overflow: hidden;
+      background: #dce7f7;
+      border-radius: 50px;
+    }
+
+    .progress span {
+      display: block;
+      width: 65%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #1b60e7, #63a3ff);
+      animation: loading 2.4s ease-in-out infinite alternate;
+    }
+
+    .laptop-base {
+      height: 13px;
+      width: 112%;
+      margin-left: -6%;
+      background: linear-gradient(#6e91b8, #27496f);
+      border-radius: 3px 3px 15px 15px;
+    }
+
+    .floating-card {
+      position: absolute;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 13px 16px;
+      border: 1px solid #e1eafa;
+      border-radius: 15px;
+      background: #ffffffed;
+      box-shadow: 0 12px 35px #18345f12;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .floating-card i {
+      font-size: 22px;
+      color: var(--blue);
+    }
+
+    .floating-card strong {
+      display: block;
+      font-size: 11px;
+      color: var(--navy);
+    }
+
+    .floating-card small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .card-top {
+      top: 22px;
+      left: -2px;
+    }
+
+    .card-bottom {
+      right: -5px;
+      bottom: 30px;
+      animation-delay: -2s;
+    }
+
+    .card-bottom i {
+      color: #16a777;
+    }
+
+    /* FOOTER */
+    .footer {
+      padding: 30px 5% 25px;
+      color: #fff;
+      background: linear-gradient(120deg, #102b55, #174783);
+      position: relative;
+    }
+
+    .footer::before {
+      content: "";
+      position: absolute;
+      top: -19px;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background: #174783;
+      clip-path: polygon(0 100%, 18% 15%, 43% 85%, 68% 15%, 100% 100%);
+    }
+
+    .footer-inner {
+      width: min(1000px, 100%);
+      margin: auto;
+    }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .benefit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 10px;
+    }
+
+    .benefit-icon {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      background: #2d69dc;
+      border-radius: 14px;
+      font-size: 17px;
+    }
+
+    .benefit strong {
+      font-size: 12px;
+      display: block;
+    }
+
+    .benefit p {
+      margin-top: 5px;
+      color: #c6d9f5;
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    .copyright {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #ffffff20;
+      text-align: center;
+      color: #b6cbed;
+      font-size: 11px;
+      line-height: 1.9;
+    }
+
+    .copyright strong {
+      color: #fff;
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      50% { opacity: .4; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes loading {
+      from { width: 35%; }
+      to { width: 90%; }
+    }
+
+    @media (min-width: 1500px) {
+      .main { padding-top: 55px; padding-bottom: 75px; }
+    }
+
+    @media (max-width: 900px) {
+      .main {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        padding-top: 30px;
+      }
+
+      .content {
+        max-width: 650px;
+        margin: auto;
+        width: 100%;
+      }
+
+      .visual {
+        width: min(100%, 540px);
+        margin: auto;
+        min-height: 400px;
+      }
+
+      .card-top { left: 0; }
+      .card-bottom { right: 0; }
+
+      .benefits { gap: 8px; }
+      .benefit { justify-content: flex-start; }
+    }
+
+    @media (max-width: 560px) {
+      .header {
+        padding: 20px 0;
+        align-items: flex-start;
+      }
+
+      .brand { gap: 10px; }
+      .brand-logo {
+        width: 45px;
+        height: 45px;
+        border-radius: 13px;
+        font-size: 21px;
+      }
+
+      .brand p { font-size: 11px; line-height: 1.5; }
+
+      .header-tag {
+        padding: 9px 10px;
+        font-size: 10px;
+      }
+
+      .header-tag span { display: none; }
+
+      .main {
+        width: 88%;
+        padding-top: 22px;
+        padding-bottom: 45px;
+      }
+
+      .eyebrow {
+        font-size: 9px;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-size: clamp(33px, 9vw, 45px);
+        letter-spacing: -1.8px;
+      }
+
+      .description {
+        font-size: 13px;
+        line-height: 1.85;
+      }
+
+      .notice { padding: 15px; }
+      .visual { min-height: 340px; }
+
+      .visual-circle { width: 95%; }
+
+      .laptop {
+        width: 83%;
+        padding: 7px;
+        border-radius: 15px;
+      }
+
+      .screen {
+        min-height: 205px;
+        padding: 25px 12px 15px;
+      }
+
+      .screen-icon { font-size: 47px; }
+      .screen h3 { font-size: 14px; }
+      .screen p { font-size: 10px; }
+
+      .floating-card {
+        padding: 10px;
+        gap: 8px;
+      }
+
+      .floating-card i { font-size: 17px; }
+      .floating-card strong { font-size: 9px; }
+      .floating-card small { font-size: 8px; }
+
+      .card-top { top: 5px; }
+      .card-bottom { bottom: 5px; }
+
+      .gear-one { font-size: 45px; }
+      .gear-two { font-size: 32px; }
+
+      .footer { padding: 25px 6% 20px; }
+      .benefits { grid-template-columns: 1fr; gap: 5px; }
+      .benefit { justify-content: flex-start; padding: 7px 15px; }
+      .benefit-icon { width: 39px; height: 39px; }
+      .copyright { font-size: 10px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+
+    <header class="header">
+      <div class="brand">
+        <div class="brand-logo">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+        <div>
+          <h2>Sistem Absensi Pegawai BPD</h2>
+          <p>Se-Kecamatan Pangkalan, Kabupaten Karawang</p>
+        </div>
+      </div>
+
+      <div class="header-tag">
+        <i class="fa-solid fa-screwdriver-wrench"></i>
+        <span>System Maintenance</span>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="content">
+        <div class="eyebrow">
+          <span></span>
+          Informasi Pemeliharaan Sistem
+        </div>
+
+        <h1>
+          Sistem Sedang
+          <span class="highlight">Dalam Perbaikan.</span>
+        </h1>
+
+        <p class="description">
+          Mohon maaf atas ketidaknyamanan yang terjadi.
+          Saat ini kami sedang melakukan pemeliharaan dan
+          penyempurnaan Sistem Absensi Pegawai BPD untuk
+          meningkatkan keamanan, stabilitas, serta kualitas layanan.
+        </p>
+
+        <div class="notice">
+          <div class="notice-icon">
+            <i class="fa-solid fa-circle-info"></i>
+          </div>
+          <div>
+            <strong>Mohon Menunggu Sejenak</strong>
+            <p>
+              Untuk sementara, layanan absensi belum dapat digunakan.
+              Silakan kunjungi kembali halaman ini secara berkala.
+              Terima kasih atas pengertian dan kerja samanya.
+            </p>
+          </div>
+        </div>
+
+        <div class="clock">
+          <i class="fa-regular fa-clock"></i>
+          <div>
+            <strong id="clock">00:00:00 WIB</strong>
+            <span> &nbsp;•&nbsp; </span>
+            <span id="date">Memuat tanggal...</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="visual" aria-label="Ilustrasi pemeliharaan sistem">
+        <div class="visual-circle"></div>
+
+        <i class="fa-solid fa-gear gear gear-one"></i>
+        <i class="fa-solid fa-gear gear gear-two"></i>
+
+        <div class="floating-card card-top">
+          <i class="fa-solid fa-shield-halved"></i>
+          <div>
+            <strong>Keamanan Sistem</strong>
+            <small>Peningkatan perlindungan</small>
+          </div>
+        </div>
+
+        <div class="laptop">
+          <div class="screen">
+            <div class="screen-dots">
+              <span></span><span></span><span></span>
+            </div>
+
+            <i class="fa-solid fa-gear screen-icon"></i>
+            <h3>Maintenance Mode</h3>
+            <p>Sistem sedang dioptimalkan...</p>
+
+            <div class="progress">
+              <span></span>
+            </div>
+          </div>
+          <div class="laptop-base"></div>
+        </div>
+
+        <div class="floating-card card-bottom">
+          <i class="fa-solid fa-circle-check"></i>
+          <div>
+            <strong>Optimasi Layanan</strong>
+            <small>Menuju kinerja lebih baik</small>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="benefits">
+          <div class="benefit">
+            <div class="benefit-icon">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+              <strong>Lebih Aman</strong>
+              <p>Perlindungan data yang lebih baik</p>
+            </div>
+          </div>
+
+          <div class="benefit">
+            <div class="benefit-icon">
+              <i class="fa-solid fa-gauge-high"></i>
+            </div>
+            <div>
+              <strong>Lebih Optimal</strong>
+              <p>Performa sistem lebih baik</p>
+            </div>
+          </div>
+
+          <div class="benefit">
+            <div class="benefit-icon">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div>
+              <strong>Lebih Mudah</strong>
+              <p>Mendukung pelayanan BPD</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="copyright">
+          <strong>Sistem Absensi Pegawai BPD Se-Kecamatan Pangkalan</strong>
+          <br>
+          © <span id="year"></span> Kecamatan Pangkalan, Kabupaten Karawang.
+          <br>
+          <span>Terima kasih atas kesabaran dan pengertian Anda.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Jam dan tanggal otomatis berdasarkan waktu lokal perangkat
+    function updateDateTime() {
+      const now = new Date();
+
+      const time = new Intl.DateTimeFormat('id-ID', {
+        timeZone: 'Asia/Jakarta',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }).format(now);
+
+      const date = new Intl.DateTimeFormat('id-ID', {
+        timeZone: 'Asia/Jakarta',
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      }).format(now);
+
+      document.getElementById('clock').textContent = time + ' WIB';
+      document.getElementById('date').textContent = date;
+    }
+
+    document.getElementById('year').textContent =
+      new Date().getFullYear();
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+  </script>
+</body>
+</html>
